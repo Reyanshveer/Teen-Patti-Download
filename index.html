@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Card Sphere - High-Tech Cyber Gaming Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyberRed: '#FF2E55',
+                        cyberRedLight: '#FFF0F3',
+                        cyberGold: '#D4AF37',
+                        cyberGoldGlow: '#FFD700',
+                        cyberGoldLight: '#FFFAED',
+                        cyberDark: '#120A0F',
+                        glassBg: 'rgba(255, 250, 240, 0.75)',
+                        glassBorder: 'rgba(212, 175, 55, 0.35)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'cyber-red': '0 0 20px rgba(255, 46, 85, 0.4)',
+                        'cyber-gold': '0 0 20px rgba(212, 175, 55, 0.4)',
+                        'cyber-lg': '0 10px 30px -5px rgba(255, 46, 85, 0.25), 0 0 20px rgba(212, 175, 55, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom High-Tech Motions & Global Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFF5F6 0%, #FFFDF0 50%, #FFEFEF 100%);
+            color: #1A1A24;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Canvas background overlay */
+        #cyber-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.85;
+        }
+
+        /* Glassmorphism Ultra Surface */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 12px 40px rgba(255, 46, 85, 0.08), inset 0 0 15px rgba(255, 255, 255, 0.9);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 248, 240, 0.7) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 46, 85, 0.2);
+            transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 46, 85, 0.6);
+            box-shadow: 0 20px 40px rgba(255, 46, 85, 0.2), 0 0 25px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Scanline Sweeper Motion */
+        .scanline-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .scanline-container::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 80px;
+            background: linear-gradient(180deg, transparent, rgba(255, 46, 85, 0.25) 50%, rgba(255, 215, 0, 0.4) 52%, transparent);
+            transform: rotate(-35deg);
+            animation: scanBeam 6s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes scanBeam {
+            0% { top: -120%; left: -120%; }
+            50%, 100% { top: 180%; left: 180%; }
+        }
+
+        /* Tech Cyber Pulse & Badges */
+        .pulse-badge {
+            animation: cyberPulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes cyberPulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px rgba(255, 46, 85, 0.5); }
+            50% { opacity: 0.8; transform: scale(1.03); box-shadow: 0 0 22px rgba(255, 215, 0, 0.8); }
+        }
+
+        /* Dynamic HUD Corner Tech Lines */
+        .hud-corner {
+            position: relative;
+        }
+        .hud-corner::before, .hud-corner::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: #FF2E55;
+            pointer-events: none;
+        }
+        .hud-corner::before {
+            top: -2px;
+            left: -2px;
+            border-top: 2px solid #FF2E55;
+            border-left: 2px solid #FF2E55;
+        }
+        .hud-corner::after {
+            bottom: -2px;
+            right: -2px;
+            border-bottom: 2px solid #D4AF37;
+            border-right: 2px solid #D4AF37;
+        }
+
+        /* Hologram Grid Effect */
+        .holo-grid {
+            background-size: 30px 30px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 46, 85, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+        }
+
+        /* Smooth Tab Animation */
+        .page-tab {
+            display: none;
+            opacity: 0;
+            transform: translateY(18px) scale(0.98);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+
+        .page-tab.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Glowing Tech Text Gradient */
+        .gradient-text-cyber {
+            background: linear-gradient(135deg, #FF2E55 0%, #D4AF37 50%, #FF8000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Floating Futuristic Motion */
+        .float-motion {
+            animation: floatAnim 5s ease-in-out infinite;
+        }
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF0F3;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #FF2E55, #D4AF37);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="holo-grid relative min-h-screen flex flex-col justify-between">
+
+    <!-- Interactive HTML5 Canvas Cyber Background -->
+    <canvas id="cyber-canvas"></canvas>
+
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- Top Futuristic Navigation Bar -->
+        <header class="sticky top-0 z-50 px-4 lg:px-8 py-3">
+            <nav class="max-w-7xl mx-auto glass-panel rounded-2xl px-6 py-4 flex items-center justify-between shadow-cyber-lg">
+                <!-- Brand Logo -->
+                <a href="#" onclick="switchTab('home'); return false;" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyberRed to-cyberGold flex items-center justify-center text-white text-xl shadow-cyber-red transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                        <i class="fa-solid font-bold fa-chess-queen"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-wider gradient-text-cyber uppercase">Royal Card Sphere</span>
+                        <span class="block text-[10px] font-mono tracking-widest text-cyberRed font-bold -mt-1">ULTRA HIGH-TECH GAMING HUB</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2 font-mono text-xs tracking-wider">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-xl transition-all duration-300 font-bold border border-transparent hover:border-cyberRed hover:text-cyberRed">
+                        <i class="fa-solid fa-house-laptop mr-1.5"></i>HOME
+                    </button>
+                    <button onclick="switchTab('service')" id="nav-service" class="nav-btn px-4 py-2 rounded-xl transition-all duration-300 font-bold border border-transparent hover:border-cyberRed hover:text-cyberRed">
+                        <i class="fa-solid fa-microchip mr-1.5"></i>SERVICES
+                    </button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-4 py-2 rounded-xl transition-all duration-300 font-bold border border-transparent hover:border-cyberRed hover:text-cyberRed">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i>ABOUT
+                    </button>
+                    <button onclick="switchTab('blog')" id="nav-blog" class="nav-btn px-4 py-2 rounded-xl transition-all duration-300 font-bold border border-transparent hover:border-cyberRed hover:text-cyberRed">
+                        <i class="fa-solid fa-newspaper mr-1.5"></i>BLOG
+                    </button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-4 py-2 rounded-xl transition-all duration-300 font-bold border border-transparent hover:border-cyberRed hover:text-cyberRed">
+                        <i class="fa-solid fa-headset mr-1.5"></i>CONTACT
+                    </button>
+                </div>
+
+                <!-- Call To Action Button -->
+                <div class="hidden lg:block">
+                    <button onclick="switchTab('contact')" class="pulse-badge relative px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyberRed to-cyberGold text-white font-bold text-xs font-mono uppercase tracking-widest shadow-cyber-red transition-all hover:brightness-110 active:scale-95">
+                        <i class="fa-solid fa-bolt mr-2"></i>Connect Node
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-cyberRed p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </nav>
+
+            <!-- Mobile Navigation Drawer -->
+            <div id="mobile-drawer" class="hidden md:hidden max-w-7xl mx-auto glass-panel mt-2 rounded-2xl p-5 shadow-2xl flex-col space-y-3 font-mono text-sm">
+                <button onclick="switchTab('home'); toggleMobileMenu();" class="text-left py-2 px-3 rounded-lg hover:bg-cyberRedLight text-gray-800 font-semibold"><i class="fa-solid fa-house-laptop mr-2 text-cyberRed"></i>HOME</button>
+                <button onclick="switchTab('service'); toggleMobileMenu();" class="text-left py-2 px-3 rounded-lg hover:bg-cyberRedLight text-gray-800 font-semibold"><i class="fa-solid fa-microchip mr-2 text-cyberRed"></i>SERVICES</button>
+                <button onclick="switchTab('about'); toggleMobileMenu();" class="text-left py-2 px-3 rounded-lg hover:bg-cyberRedLight text-gray-800 font-semibold"><i class="fa-solid fa-shield-halved mr-2 text-cyberRed"></i>ABOUT</button>
+                <button onclick="switchTab('blog'); toggleMobileMenu();" class="text-left py-2 px-3 rounded-lg hover:bg-cyberRedLight text-gray-800 font-semibold"><i class="fa-solid fa-newspaper mr-2 text-cyberRed"></i>BLOG</button>
+                <button onclick="switchTab('contact'); toggleMobileMenu();" class="text-left py-2 px-3 rounded-lg hover:bg-cyberRedLight text-gray-800 font-semibold"><i class="fa-solid fa-headset mr-2 text-cyberRed"></i>CONTACT</button>
+            </div>
+        </header>
+
+        <!-- Main Content Wrapper for Pages -->
+        <main class="flex-grow max-w-7xl w-full mx-auto px-4 lg:px-8 py-6">
+
+            <!-- PAGE 1: HOME PAGE -->
+            <section id="tab-home" class="page-tab active space-y-12">
+                <!-- Hero Cyber Banner -->
+                <div class="glass-panel scanline-container rounded-3xl p-8 lg:p-14 relative overflow-hidden border-2 border-cyberGold/30">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7 space-y-6">
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyberRedLight border border-cyberRed/30 text-cyberRed text-xs font-mono font-bold tracking-widest uppercase">
+                                <span class="w-2 h-2 rounded-full bg-cyberRed animate-ping"></span>
+                                Next-Gen Cyber-Gaming Platform v3.0
+                            </div>
+                            <h1 class="text-4xl lg:text-6xl font-black tracking-tight leading-tight text-gray-900">
+                                The Cyber Realm of <br/>
+                                <span class="gradient-text-cyber uppercase">Royal Card Sphere</span>
+                            </h1>
+                            <p class="text-gray-700 text-base lg:text-lg leading-relaxed font-normal max-w-2xl">
+                                Welcome to the pinnacle of cybernetic gaming ecosystem architecture. We combine quantum-fast real-time multiplayer networking, holographic visual mechanics, and ultra-secure high-level card gaming infrastructure for enthusiasts worldwide.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <button onclick="switchTab('service')" class="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyberRed to-cyberGold text-white font-mono font-bold text-sm tracking-wider uppercase shadow-cyber-red hover:shadow-cyber-gold transition-all duration-300 transform hover:-translate-y-1">
+                                    Explore Ecosystem <i class="fa-solid fa-arrow-right-long ml-2"></i>
+                                </button>
+                                <button onclick="switchTab('blog')" class="px-7 py-3.5 rounded-2xl glass-card text-gray-900 font-mono font-bold text-sm tracking-wider uppercase border border-cyberGold/50 hover:bg-cyberGoldLight transition-all duration-300">
+                                    Cyber Insights <i class="fa-solid fa-book-open mr-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5 relative flex justify-center">
+                            <div class="float-motion relative w-full max-w-md">
+                                <div class="absolute -inset-1 bg-gradient-to-r from-cyberRed to-cyberGold rounded-3xl blur-xl opacity-40"></div>
+                                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" alt="Cybernetic Gaming Station" class="relative rounded-3xl object-cover w-full h-80 lg:h-96 border-2 border-cyberGold/50 shadow-2xl" onerror="this.src='https://placehold.co/800x600/FFEFEF/FF2E55?text=Royal+Card+Sphere';">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Grid with 3D Holo-Tilt -->
+                <div class="space-y-6">
+                    <div class="text-center max-w-2xl mx-auto space-y-2">
+                        <h2 class="text-3xl font-black uppercase tracking-wide gradient-text-cyber">Quantum Architecture Features</h2>
+                        <p class="text-gray-600 text-sm font-mono">Precision-crafted modular systems built for high-stakes digital card simulation.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Feature 1 -->
+                        <div class="glass-card hud-corner rounded-2xl p-7 flex flex-col justify-between hover-tilt">
+                            <div class="space-y-4">
+                                <div class="w-14 h-14 rounded-2xl bg-cyberRedLight border border-cyberRed/30 flex items-center justify-center text-cyberRed text-2xl shadow-inner">
+                                    <i class="fa-solid fa-network-wired"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 font-mono">Ultra Latency Matrix</h3>
+                                <p class="text-gray-600 text-sm leading-relaxed">
+                                    Engineered with high-frequency WebSocket sync protocols delivering sub-15ms node response across global game rooms.
+                                </p>
+                            </div>
+                            <div class="pt-6 mt-4 border-t border-gray-200/60 flex items-center justify-between text-xs font-mono text-cyberRed font-bold">
+                                <span>PROTOCOL LEVEL 9</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
+                        </div>
+
+                        <!-- Feature 2 -->
+                        <div class="glass-card hud-corner rounded-2xl p-7 flex flex-col justify-between hover-tilt">
+                            <div class="space-y-4">
+                                <div class="w-14 h-14 rounded-2xl bg-cyberGoldLight border border-cyberGold/40 flex items-center justify-center text-cyberGold text-2xl shadow-inner">
+                                    <i class="fa-solid fa-shield-virus"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 font-mono">Encrypted RNG Core</h3>
+                                <p class="text-gray-600 text-sm leading-relaxed">
+                                    Fair-play cryptographic shuffle algorithms verified by decentralized consensus hashes to guarantee absolute randomness.
+                                </p>
+                            </div>
+                            <div class="pt-6 mt-4 border-t border-gray-200/60 flex items-center justify-between text-xs font-mono text-cyberGold font-bold">
+                                <span>VERIFIED SHUFFLE</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
+                        </div>
+
+                        <!-- Feature 3 -->
+                        <div class="glass-card hud-corner rounded-2xl p-7 flex flex-col justify-between hover-tilt">
+                            <div class="space-y-4">
+                                <div class="w-14 h-14 rounded-2xl bg-cyberRedLight border border-cyberRed/30 flex items-center justify-center text-cyberRed text-2xl shadow-inner">
+                                    <i class="fa-solid fa-vr-cardboard"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 font-mono">Holo-UI Interfaces</h3>
+                                <p class="text-gray-600 text-sm leading-relaxed">
+                                    Hyper-immersive WebGL HUD overlay graphics presenting real-time game telemetry, heatmaps, and opponent telemetry.
+                                </p>
+                            </div>
+                            <div class="pt-6 mt-4 border-t border-gray-200/60 flex items-center justify-between text-xs font-mono text-cyberRed font-bold">
+                                <span>HUD ENGINE 3.0</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Showcase Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-6">
+                    <div class="glass-panel p-4 rounded-3xl border border-cyberGold/30 shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=80" alt="Futuristic Gaming Hardware" class="rounded-2xl object-cover w-full h-80" onerror="this.src='https://placehold.co/800x500/FFF0F3/FF2E55?text=Cyber+Gaming+Hub';">
+                    </div>
+                    <div class="space-y-5">
+                        <span class="text-xs font-mono uppercase tracking-widest text-cyberRed font-bold">// NEXT-LEVEL ENGINE</span>
+                        <h2 class="text-3xl font-black text-gray-900 leading-tight">Mastering Cybernetic Card Mechanics & Strategy</h2>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Royal Card Sphere bridges the traditional excitement of strategic card play with futuristic web3-inspired high-speed interface graphics. Experience dynamic card movement physics, real-time analytics, and smooth multi-device rendering.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 font-mono text-xs font-bold pt-2">
+                            <div class="p-3 rounded-xl bg-white/80 border border-cyberGold/30 text-gray-800">
+                                <div class="text-cyberRed text-xl font-black">99.99%</div>
+                                Uptime Reliability
+                            </div>
+                            <div class="p-3 rounded-xl bg-white/80 border border-cyberGold/30 text-gray-800">
+                                <div class="text-cyberGold text-xl font-black">&lt;10 ms</div>
+                                Input Responsiveness
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAGE 2: SERVICES PAGE -->
+            <section id="tab-service" class="page-tab space-y-10">
+                <div class="text-center max-w-3xl mx-auto space-y-3">
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyberRed font-bold">// CYBERNETIC OFFERINGS</span>
+                    <h1 class="text-4xl font-black uppercase gradient-text-cyber">High-Tech Gaming Services</h1>
+                    <p class="text-gray-600 text-sm">Empowering digital card gaming ecosystems with enterprise-grade solutions and player analytics.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="glass-card rounded-2xl p-6 hud-corner flex flex-col justify-between hover-tilt">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyberRed to-cyberGold text-white flex items-center justify-center text-xl shadow-md">
+                                <i class="fa-solid fa-gamepad"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-mono text-gray-900">Custom Card Engine Dev</h3>
+                            <p class="text-gray-600 text-xs leading-relaxed">
+                                Development of custom multiplayer card mechanics tailored to fast-paced regional card variants, equipped with custom rulesets and fluid interactive dealing physics.
+                            </p>
+                        </div>
+                        <ul class="mt-6 space-y-2 text-xs font-mono text-gray-700">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyberRed"></i> Real-time synchronized state</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyberRed"></i> Cross-platform mobile scalability</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service Card 2 -->
+                    <div class="glass-card rounded-2xl p-6 hud-corner flex flex-col justify-between hover-tilt">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyberGold to-amber-600 text-white flex items-center justify-center text-xl shadow-md">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-mono text-gray-900">Telemetry & AI Heatmaps</h3>
+                            <p class="text-gray-600 text-xs leading-relaxed">
+                                Integration of high-level gameplay telemetry tools that track player behavior, optimize room balancing, and prevent fraud through AI algorithmic pattern checks.
+                            </p>
+                        </div>
+                        <ul class="mt-6 space-y-2 text-xs font-mono text-gray-700">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyberGold"></i> Automated fraud mitigation</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyberGold"></i> Live spectator analytical HUD</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service Card 3 -->
+                    <div class="glass-card rounded-2xl p-6 hud-corner flex flex-col justify-between hover-tilt">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyberRed to-rose-700 text-white flex items-center justify-center text-xl shadow-md">
+                                <i class="fa-solid fa-server"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-mono text-gray-900">Low-Latency Mesh Servers</h3>
+                            <p class="text-gray-600 text-xs leading-relaxed">
+                                Global edge network deployment optimized specifically for turn-based card gaming, ensuring zero lag spikes and 99.99% operational continuity.
+                            </p>
+                        </div>
+                        <ul class="mt-6 space-y-2 text-xs font-mono text-gray-700">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyberRed"></i> Regional edge node sync</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyberRed"></i> DDoS protection standard</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Interactive Service Showcase Banner -->
+                <div class="glass-panel p-8 rounded-3xl border border-cyberGold/40 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-black font-mono text-gray-900">Need Custom Gaming Architecture Solutions?</h3>
+                        <p class="text-gray-600 text-sm max-w-xl">Our cyber engineering team builds customized card game environments, tournament infrastructure, and real-time backend engines.</p>
+                    </div>
+                    <button onclick="switchTab('contact')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-cyberRed to-cyberGold text-white font-mono font-bold text-xs uppercase tracking-wider shadow-cyber-red whitespace-nowrap">
+                        Initiate Consultation
+                    </button>
+                </div>
+            </section>
+
+            <!-- PAGE 3: ABOUT PAGE -->
+            <section id="tab-about" class="page-tab space-y-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-6 space-y-6">
+                        <span class="text-xs font-mono uppercase tracking-widest text-cyberRed font-bold">// THE CORE PROTOCOL</span>
+                        <h1 class="text-4xl font-black leading-tight text-gray-900">
+                            Pioneering Next-Gen Digital <span class="gradient-text-cyber uppercase">Card Entertainment</span>
+                        </h1>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Founded at the intersection of high-speed gaming technologies and sleek aesthetic UI design, <strong>Royal Card Sphere</strong> was built to elevate card gaming platforms to cybernetic heights. We focus on delivering buttery smooth frames, cryptographically safe shuffling mechanics, and visual HUD features that match modern gaming standards.
+                        </p>
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            Our team consists of veteran game developers, UI/UX cyber-designers, and distributed cloud architects dedicated to innovating modern card game interfaces across desktop and mobile devices.
+                        </p>
+                        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                            <div>
+                                <h4 class="text-2xl font-black text-cyberRed font-mono">100%</h4>
+                                <p class="text-xs text-gray-500 font-mono">Fair Play RNG</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-black text-cyberGold font-mono">2.5M+</h4>
+                                <p class="text-xs text-gray-500 font-mono">Rounds Handled</p>
+                            </div>
+                            <div>
+                                <h4 class="text-2xl font-black text-cyberRed font-mono">0.02s</h4>
+                                <p class="text-xs text-gray-500 font-mono">Action Latency</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="glass-panel p-3 rounded-3xl border border-cyberRed/30 shadow-cyber-lg">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=900&q=80" alt="Cyber Technology Center" class="rounded-2xl object-cover w-full h-96" onerror="this.src='https://placehold.co/800x600/FFEFEF/FF2E55?text=Royal+Card+Sphere+Tech';">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Values -->
+                <div class="space-y-6 pt-6">
+                    <h2 class="text-2xl font-black font-mono text-center text-gray-900">Core Engineering Pillars</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-cyberRed">
+                            <h3 class="font-bold font-mono text-gray-900 mb-2">1. Visual Supremacy</h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">Combining light neon glow elements, high frame rate HUD interactions, and intuitive glassmorphism layouts.</p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-cyberGold">
+                            <h3 class="font-bold font-mono text-gray-900 mb-2">2. Uncompromised Integrity</h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">Utilizing deterministic random number generators verified by open telemetry standard checks.</p>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-cyberRed">
+                            <h3 class="font-bold font-mono text-gray-900 mb-2">3. Fluid Multi-Device Mesh</h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">Designing universal responsive engines that run smoothly whether on mobile browsers or ultra-wide monitors.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAGE 4: BLOG PAGE (1200+ Words Structured SEO Article) -->
+            <section id="tab-blog" class="page-tab space-y-10">
+                <!-- Blog Header -->
+                <div class="text-center max-w-4xl mx-auto space-y-4">
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyberRed font-bold">// CYBER KNOWLEDGE BASE & STRATEGY GUIDE</span>
+                    <h1 class="text-3xl lg:text-5xl font-black leading-tight text-gray-900">
+                        The Evolution of Online Card Gaming & Mobile Platform Architecture
+                    </h1>
+                    <div class="flex items-center justify-center gap-4 text-xs font-mono text-gray-500 pt-2">
+                        <span><i class="fa-regular fa-calendar mr-1"></i> October 2026</span>
+                        <span>•</span>
+                        <span><i class="fa-regular fa-clock mr-1"></i> 8 Min Read</span>
+                        <span>•</span>
+                        <span><i class="fa-regular fa-folder-open mr-1"></i> Mobile Gaming</span>
+                    </div>
+                </div>
+
+                <!-- Featured Image -->
+                <div class="glass-panel p-3 rounded-3xl border border-cyberGold/40 max-w-5xl mx-auto shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80" alt="Futuristic Cyber Card Gaming" class="rounded-2xl object-cover w-full h-80 lg:h-96" onerror="this.src='https://placehold.co/1200x600/FFEFEF/FF2E55?text=Cyber+Card+Gaming+Guide';">
+                </div>
+
+                <!-- Structured SEO Article Content -->
+                <article class="glass-panel rounded-3xl p-6 lg:p-12 max-w-4xl mx-auto space-y-8 text-gray-800 leading-relaxed font-sans text-base">
+                    
+                    <!-- Intro -->
+                    <div class="space-y-4">
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            The landscape of mobile gaming and online card entertainment has undergone a monumental shift over the past decade. What began as simple single-player digital decks has transformed into a high-speed, hyper-connected cyber ecosystem driven by real-time cloud networking, ultra-responsive graphics, and complex multiplayer strategy engines. Within this dynamic space, traditional card games such as Teen Patti have adapted to meet the demands of modern mobile users seeking instantaneous matchmaking, vibrant graphical fidelity, and smooth operational performance.
+                        </p>
+                        <p>
+                            Platforms today are engineered to deliver low-latency round execution, sophisticated anti-cheat protection, and sleek user interface physics. As mobile processing hardware continues to advance, players are looking for optimized applications that provide seamless gameplay without lag or high power consumption. Understanding these technical dynamics and finding trustworthy portals for mobile gaming applications is vital for enthusiasts seeking top-tier card entertainment.
+                        </p>
+                    </div>
+
+                    <!-- H2 Section 1 -->
+                    <div class="space-y-4 pt-4 border-t border-gray-200">
+                        <h2 class="text-2xl lg:text-3xl font-black font-mono text-gray-900 gradient-text-cyber">
+                            1. The Technological Shift in Mobile Card Entertainment
+                        </h2>
+                        <p>
+                            Modern online card gaming relies heavily on advanced web and native mobile technologies. Unlike earlier iterations that suffered from server desynchronization or visual clutter, contemporary apps utilize hardware-accelerated rendering engines. This ensures that card animations, chip movements, and UI HUD overlays run at a consistent 60 frames per second even on entry-level smartphones.
+                        </p>
+                        <p>
+                            Furthermore, network protocols have evolved from periodic polling to persistent WebSockets and lightweight UDP data transfers. This architecture minimizes latency, ensuring that player decisions—such as folding, placing bets, or showing hands—are communicated instantly across all participating client devices in the room.
+                        </p>
+                    </div>
+
+                    <!-- H2 Section 2 with Target Keyword Link -->
+                    <div class="space-y-4 pt-4 border-t border-gray-200">
+                        <h2 class="text-2xl lg:text-3xl font-black font-mono text-gray-900 gradient-text-cyber">
+                            2. Exploring Popular Mobile Card Applications
+                        </h2>
+                        <p>
+                            Among the various mobile card variants available today, Teen Patti holds a central position in the gaming community. Enthusiasts actively seek out streamlined platform downloads that offer stable performance and user-friendly interfaces.
+                        </p>
+                        <p>
+                            For players interested in experiencing a feature-rich mobile card environment with fast loading speeds and intuitive game rooms, exploring the official portal for <a href="https://officialallyonogames.com/new-dhani-teen-patti/" target="_blank" rel="noopener font-semibold" class="text-cyberRed underline decoration-cyberGold font-bold hover:text-cyberGold transition-colors">Dhani Teen Patti Download</a> provides a seamless gateway to access updated installation packages, player guides, and feature breakdowns.
+                        </p>
+                        <p>
+                            When selecting a mobile gaming application, verifying source authenticity and app integrity ensures that users receive an optimized experience free from performance bottlenecks or unwanted background tasks.
+                        </p>
+                    </div>
+
+                    <!-- H2 Section 3 -->
+                    <div class="space-y-4 pt-4 border-t border-gray-200">
+                        <h2 class="text-2xl lg:text-3xl font-black font-mono text-gray-900 gradient-text-cyber">
+                            3. Key Criteria for Evaluating Modern Card Gaming Apps
+                        </h2>
+                        <p>
+                            To assist players in identifying superior gaming environments, our technical team at Royal Card Sphere highlights several core parameters that define a high-quality card application:
+                        </p>
+
+                        <!-- H3 Subsections -->
+                        <div class="space-y-4 pl-2 lg:pl-4">
+                            <h3 class="text-xl font-bold font-mono text-gray-900 text-cyberRed">
+                                A. Graphical Smoothness and Touch Responsiveness
+                            </h3>
+                            <p class="text-sm">
+                                High-quality card applications must feature responsive touch surfaces that immediately register user inputs. Fluid animations for dealing cards and chips enhance player immersion without introducing unnatural input delay.
+                            </p>
+
+                            <h3 class="text-xl font-bold font-mono text-gray-900 text-cyberRed">
+                                B. Cryptographic Fair Play Systems
+                            </h3>
+                            <p class="text-sm">
+                                Integrity is the cornerstone of online gaming. Leading applications utilize certified Random Number Generators (RNG) that guarantee unbiased deck shuffling and unpredictable card distribution for every single round.
+                            </p>
+
+                            <h3 class="text-xl font-bold font-mono text-gray-900 text-cyberRed">
+                                C. Clean UI Architecture and Minimal Distractions
+                            </h3>
+                            <p class="text-sm">
+                                High-level cyber-style UI design prioritizes legibility and clean controls. Buttons for betting increments, seeing cards, or exiting tables should be clearly positioned to prevent accidental taps during active gameplay.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- H2 Section 4 -->
+                    <div class="space-y-4 pt-4 border-t border-gray-200">
+                        <h2 class="text-2xl lg:text-3xl font-black font-mono text-gray-900 gradient-text-cyber">
+                            4. Strategic Insights for Competitive Mobile Card Play
+                        </h2>
+                        <p>
+                            Succeeding in competitive online card games requires a combination of disciplined bankroll management, keen observation of opponent behavior, and strategic adaptability. Unlike casual offline games, online card tables operate at a significantly faster pace.
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-gray-700 pl-2">
+                            <li><strong>Observe Table Dynamics:</strong> Take note of how aggressively opponents bet during initial turns and identify passive versus high-risk player styles.</li>
+                            <li><strong>Disciplined Staking:</strong> Avoid over-committing chips on speculative hands during early betting rounds before evaluating table positions.</li>
+                            <li><strong>Maintain Connectivity:</strong> Always play on reliable Wi-Fi or high-speed mobile networks to prevent accidental auto-folds due to connection drops.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Conclusion -->
+                    <div class="space-y-4 pt-4 border-t border-gray-200">
+                        <h2 class="text-2xl lg:text-3xl font-black font-mono text-gray-900 gradient-text-cyber">
+                            Conclusion
+                        </h2>
+                        <p>
+                            The digital transformation of card gaming continues to offer unprecedented convenience, high-definition visual feedback, and real-time multiplayer engagement. As mobile engines advance, platforms that prioritize technical stability, smooth UI design, and fair play algorithms will remain at the forefront of player preference. Whether you are an analytical player analyzing card odds or an enthusiast enjoying quick rounds on the go, utilizing authenticated sources and high-tech platforms ensures an unparalleled gaming experience.
+                        </p>
+                    </div>
+
+                    <!-- FAQ Section (FNP) -->
+                    <div class="space-y-6 pt-6 border-t-2 border-cyberGold/30 bg-cyberGoldLight/40 p-6 rounded-2xl">
+                        <h2 class="text-2xl font-black font-mono text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-cyberRed"></i> Frequently Asked Questions (FAQ)
+                        </h2>
+                        <div class="space-y-4 text-sm">
+                            <div class="space-y-1">
+                                <h3 class="font-bold text-gray-900 font-mono">Q1: How do I ensure an application download is safe and authentic?</h3>
+                                <p class="text-gray-600">Always source mobile gaming applications from official brand landing pages or verified download mirrors that provide secure SSL encryption and clean package signatures.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <h3 class="font-bold text-gray-900 font-mono">Q2: What are the minimum system requirements for modern card gaming apps?</h3>
+                                <p class="text-gray-600">Most modern web and mobile card games require Android 6.0+ or iOS 11.0+ with at least 2GB RAM and an active 4G/5G or Wi-Fi internet connection for real-time synchronization.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <h3 class="font-bold text-gray-900 font-mono">Q3: Why is RNG certification important in online card games?</h3>
+                                <p class="text-gray-600">RNG (Random Number Generator) certification guarantees that card distribution is mathematically random and unbiased, preventing table manipulation or algorithmic repetition.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </article>
+            </section>
+
+            <!-- PAGE 5: CONTACT PAGE -->
+            <section id="tab-contact" class="page-tab space-y-10">
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <span class="text-xs font-mono uppercase tracking-widest text-cyberRed font-bold">// DIRECT SIGNAL LINK</span>
+                    <h1 class="text-4xl font-black uppercase gradient-text-cyber">Connect With Royal Card Sphere</h1>
+                    <p class="text-gray-600 text-sm">Submit your inquiries, platform feedback, or collaboration proposals directly through our secure contact terminal.</p>
+                </div>
+
+                <div class="max-w-2xl mx-auto glass-panel p-8 lg:p-10 rounded-3xl hud-corner shadow-cyber-lg">
+                    <!-- Notification Message Area -->
+                    <div id="contact-alert" class="hidden mb-6 p-4 rounded-xl text-sm font-mono text-center font-bold"></div>
+
+                    <!-- User Input Form Only -->
+                    <form id="cyber-contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-mono uppercase tracking-wider text-gray-700 font-bold">Your Name <span class="text-cyberRed">*</span></label>
+                            <input type="text" id="form-name" required placeholder="e.g. Alex Mercer" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 focus:border-cyberRed focus:ring-2 focus:ring-cyberRed/30 outline-none transition-all text-sm font-sans">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="block text-xs font-mono uppercase tracking-wider text-gray-700 font-bold">Email Address <span class="text-cyberRed">*</span></label>
+                                <input type="email" id="form-email" required placeholder="alex@domain.com" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 focus:border-cyberRed focus:ring-2 focus:ring-cyberRed/30 outline-none transition-all text-sm font-sans">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-xs font-mono uppercase tracking-wider text-gray-700 font-bold">Phone Number <span class="text-cyberRed">*</span></label>
+                                <input type="tel" id="form-phone" required placeholder="+1 (555) 000-0000" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 focus:border-cyberRed focus:ring-2 focus:ring-cyberRed/30 outline-none transition-all text-sm font-sans">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-mono uppercase tracking-wider text-gray-700 font-bold">Your Message <span class="text-cyberRed">*</span></label>
+                            <textarea id="form-message" required rows="5" placeholder="Type your message, feedback, or inquiry here..." class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 focus:border-cyberRed focus:ring-2 focus:ring-cyberRed/30 outline-none transition-all text-sm font-sans resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyberRed to-cyberGold text-white font-mono font-bold text-sm tracking-widest uppercase shadow-cyber-red transition-all hover:brightness-110 active:scale-95 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Transmit Signal
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-16 border-t border-cyberGold/30 glass-panel py-8 px-4 text-center text-xs font-mono text-gray-600">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyberRed animate-pulse"></span>
+                    <span class="font-bold tracking-wider text-gray-800">ROYAL CARD SPHERE</span>
+                    <span>&copy; 2026. All Rights Reserved.</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" onclick="switchTab('home'); return false;" class="hover:text-cyberRed transition-colors">Home</a>
+                    <a href="#" onclick="switchTab('service'); return false;" class="hover:text-cyberRed transition-colors">Services</a>
+                    <a href="#" onclick="switchTab('about'); return false;" class="hover:text-cyberRed transition-colors">About</a>
+                    <a href="#" onclick="switchTab('blog'); return false;" class="hover:text-cyberRed transition-colors">Blog</a>
+                    <a href="#" onclick="switchTab('contact'); return false;" class="hover:text-cyberRed transition-colors">Contact</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Logic & Particle Canvas Physics -->
+    <script>
+        // Tab Switcher Logic
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('.page-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+
+            // Update Navigation active state
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-cyberRed', 'bg-cyberRedLight', 'border-cyberRed/40');
+                btn.classList.add('text-gray-700');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('text-cyberRed', 'bg-cyberRedLight', 'border-cyberRed/40');
+                activeBtn.classList.remove('text-gray-700');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Drawer Toggle
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobile-drawer');
+            drawer.classList.toggle('hidden');
+            drawer.classList.toggle('flex');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+
+        // Contact Form Handling (Message Box, No Alert)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('contact-alert');
+            
+            alertBox.className = "mb-6 p-4 rounded-xl text-sm font-mono text-center font-bold bg-green-100 text-green-800 border border-green-300 block shadow-md";
+            alertBox.innerHTML = "<i class='fa-solid fa-circle-check mr-2'></i> Signal Received! Your message has been encrypted and transmitted successfully.";
+
+            document.getElementById('cyber-contact-form').reset();
+
+            setTimeout(() => {
+                alertBox.className = "hidden";
+            }, 6000);
+        }
+
+        // Initialize Home tab as active on load
+        window.addEventListener('DOMContentLoaded', () => {
+            switchTab('home');
+            initCyberCanvas();
+            init3DHoloTilt();
+        });
+
+        // Dynamic 3D Matrix Holo-Tilt Motion
+        function init3DHoloTilt() {
+            const cards = document.querySelectorAll('.hover-tilt');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -10;
+                    const rotateY = ((x - centerX) / centerX) * 10;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+            });
+        }
+
+        // Interactive HTML5 Cyber Particle Matrix Network Canvas
+        function initCyberCanvas() {
+            const canvas = document.getElementById('cyber-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let width, height;
+            let particles = [];
+            let mouse = { x: null, y: null, radius: 140 };
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            window.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+
+            // Particle Class
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.8;
+                    this.vy = (Math.random() - 0.5) * 0.8;
+                    this.radius = Math.random() * 2 + 1;
+                    this.color = Math.random() > 0.5 ? '#FF2E55' : '#D4AF37';
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                    // Mouse Interaction
+                    if (mouse.x && mouse.y) {
+                        let dx = mouse.x - this.x;
+                        let dy = mouse.y - this.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < mouse.radius) {
+                            let angle = Math.atan2(dy, dx);
+                            let force = (mouse.radius - dist) / mouse.radius;
+                            this.x -= Math.cos(angle) * force * 3;
+                            this.y -= Math.sin(angle) * force * 3;
+                        }
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = this.color;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            // Create Particles
+            const particleCount = Math.min(Math.floor(window.innerWidth / 18), 70);
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            // Animation Loop
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw Interconnecting Cyber Lines
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        let dx = particles[i].x - particles[j].x;
+                        let dy = particles[i].y - particles[j].y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(255, 46, 85, ${1 - dist / 130})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
